@@ -120,6 +120,8 @@ public class SurfaceEncoder implements AsyncProcessor {
                 format.setInteger(MediaFormat.KEY_WIDTH, size.getWidth());
                 format.setInteger(MediaFormat.KEY_HEIGHT, size.getHeight());
 
+                Ln.i("Configuring encoder: size=" + size.getWidth() + "x" + size.getHeight() + " format=" + format);
+
                 Surface surface = null;
                 boolean mediaCodecStarted = false;
                 boolean captureStarted = false;
@@ -157,7 +159,7 @@ public class SurfaceEncoder implements AsyncProcessor {
                         // Do not retry on broken pipe (expected on close) or on send timeout (EAGAIN)
                         throw e;
                     }
-                    Ln.e("Capture/encoding error: " + e.getClass().getName() + ": " + e.getMessage());
+                    Ln.e("Capture/encoding error: " + e.getClass().getName() + ": " + e.getMessage(), e);
                     if (!prepareRetry(caps, size)) {
                         throw e;
                     }
